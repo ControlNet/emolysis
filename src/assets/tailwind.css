@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card-checked {
+    @apply bg-base-300 text-base-content
+}
+.card-unchecked {
+    @apply bg-neutral text-neutral-content
+}
+
+#audio-card, #text-card, #visual-card {
+    @apply transition-all duration-300
+}
+
+html {
+    @apply caret-transparent
+}
