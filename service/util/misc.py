@@ -7,7 +7,8 @@ from fastapi.responses import StreamingResponse
 from tqdm.auto import tqdm
 from urllib.request import urlretrieve
 
-from util.consts import AUDIO_MODEL_PATH, LINGUISTIC_MODEL_EN_PATH, LINGUISTIC_MODEL_ZH_PATH
+from util.consts import AUDIO_MODEL_PATH, LINGUISTIC_MODEL_EN_PATH, LINGUISTIC_MODEL_ZH_PATH, AUDIO_MODEL_URL, \
+    LINGUISTIC_MODEL_EN_URL, LINGUISTIC_MODEL_ZH_URL
 
 
 class VideoNamePool:
@@ -39,17 +40,14 @@ def prepare_checkpoints():
     if not os.path.exists("checkpoints"):
         os.mkdir("checkpoints")
 
-    audio_path = os.path.join("checkpoints", "audio_model_trill.pt")
-    if not os.path.exists(os.path.join("checkpoints", "audio_model_trill.pt")):
-        download_file(AUDIO_MODEL_PATH, audio_path)
+    if not os.path.exists(AUDIO_MODEL_PATH):
+        download_file(AUDIO_MODEL_URL, AUDIO_MODEL_PATH)
 
-    linguistic_en_path = os.path.join("checkpoints", "linguistic_head_en.ckpt")
-    if not os.path.exists(linguistic_en_path):
-        download_file(LINGUISTIC_MODEL_EN_PATH, linguistic_en_path)
+    if not os.path.exists(LINGUISTIC_MODEL_EN_PATH):
+        download_file(LINGUISTIC_MODEL_EN_URL, LINGUISTIC_MODEL_EN_PATH)
 
-    linguistic_zh_path = os.path.join("checkpoints", "linguistic_head_zh.ckpt")
-    if not os.path.exists(linguistic_zh_path):
-        download_file(LINGUISTIC_MODEL_ZH_PATH, linguistic_zh_path)
+    if not os.path.exists(LINGUISTIC_MODEL_ZH_PATH):
+        download_file(LINGUISTIC_MODEL_ZH_URL, LINGUISTIC_MODEL_ZH_PATH)
 
 
 # https://github.com/tiangolo/fastapi/issues/1240
