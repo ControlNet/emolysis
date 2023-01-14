@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { type FaceRow } from "@/preprocess/faces";
+import type { FaceRow } from "@/preprocess/faces";
 import FaceInfo from "@/components/FaceInfo.vue";
 
 const props = defineProps<{

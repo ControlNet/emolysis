@@ -5,7 +5,7 @@ import FooterBlock from "@/components/FooterBlock.vue";
 import { closeSocket, getSocket } from "@/global/socket";
 import type { Message, MessageProcessData, MessageResultData, MessageVideoData } from "@/global/consts";
 import _ from "lodash";
-import { config } from "@/config";
+import axios from "axios";
 
 const showProgressBar = ref(false)
 const buttonAvailable = ref(true)
@@ -13,6 +13,13 @@ const processingStatus = ref("")
 const progressBarValue: Ref<number | undefined> = ref(undefined)
 const progressBarMax: Ref<number | undefined> = ref(undefined)
 const connectionError = ref(false)
+const langSelect = ref("en")
+const warnFileInput = ref(false)
+
+const onError = (event: Event) => {
+    connectionError.value = true
+    processingStatus.value = "Connection error"
+}
 
 async function onClick() {
     const fileInput = document.getElementById("file-input") as HTMLInputElement
@@ -25,12 +32,28 @@ async function onClick() {
             return
         }
 
+        warnFileInput.value = false
         buttonAvailable.value = false
         showProgressBar.value = true
         processingStatus.value = "Uploading file..."
+
+        const formData = new FormData()
+        formData.append("file", file)
+        const postPromise = axios.post(`http://${import.meta.env.VITE_API_URL}/upload`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Accept": "application/json"
+            }
+        })
+
+        postPromise.catch(onError)
+        const response = await postPromise
+
+        const fileId = response.data.file_id
+
         const connection = getSocket()
         connection.onopen = async () => {
-            connection.send(file)
+            connection.send(JSON.stringify({"file_id": fileId, "lang": langSelect.value}))
         }
 
         connection.onmessage = async (event) => {
@@ -40,7 +63,6 @@ async function onClick() {
             } else {
                 closeSocket()
             }
-            console.log(data)
             switch (data.status) {
                 case "uploaded": {
                     processingStatus.value = "Processing speech recognition"
@@ -69,7 +91,6 @@ async function onClick() {
                     break
                 }
                 case "visual start": {
-                    config.fps = (data.data as MessageVideoData).fps
                     break
                 }
                 case "visual": {
@@ -83,20 +104,18 @@ async function onClick() {
                     break
                 }
                 case "done": {
-                    const { id } = data.data as MessageResultData
+                    const {id} = data.data as MessageResultData
                     console.log("href", `/remote/${id}`)
+                    window.location.href = `/remote/${id}`
                     break
                 }
             }
         }
 
-        const onError = () => {
-            connectionError.value = true
-            processingStatus.value = "Connection error"
-        }
-
         connection.onerror = onError
         connection.onclose = onError
+    } else {
+        warnFileInput.value = true
     }
 }
 
@@ -111,7 +130,14 @@ async function onClick() {
                 <p class="py-6">An emotion analysis toolkit in multiparty interaction.</p>
                 <div class="form-control">
                     <div class="input-group">
-                        <input type="file" id="file-input" class="file-input file-input-bordered w-full max-w-xs" />
+                        <input type="file" id="file-input"
+                               class="file-input file-input-bordered w-full max-w-xs"
+                               :class="{'bg-error': warnFileInput}"
+                        />
+                        <select class="select select-bordered" v-model="langSelect">
+                            <option value="en">EN</option>
+                            <option value="zh">ZH</option>
+                        </select>
                         <button class="btn" @click="onClick"
                                 :class="{ 'btn-disabled': !buttonAvailable, 'btn-primary': buttonAvailable }">
                             {{ buttonAvailable ? "Upload" : "Processing" }}

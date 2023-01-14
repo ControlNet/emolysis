@@ -13,6 +13,7 @@ import { useFaceCheckedStore } from "@/stores/faceCheckedStore";
 import { getAudioDataByFrame } from "@/preprocess/audio";
 import { getTextDataByFrame } from "@/preprocess/text";
 import FooterBlock from "@/components/FooterBlock.vue";
+import axios from "axios";
 
 const visualChecked = ref(true);
 const audioChecked = ref(true);
@@ -137,6 +138,8 @@ onBeforeMount(async () => {
     switch (route.params.mode) {
         case "remote":
             await dataPathStore.setDataDir(`http://${import.meta.env.VITE_API_URL}/data/${route.params.videoId}`)
+            const response = await axios.get(`http://${import.meta.env.VITE_API_URL}/fps/${route.params.videoId}`)
+            config.fps = await response.data.fps
             break
         case "local":
             await dataPathStore.setDataDir(`/data/${route.params.videoId}`)
@@ -144,7 +147,6 @@ onBeforeMount(async () => {
         default:
             document.location.href = "/"
     }
-    config.fps = route.params.videoId === "M01004HK7" ? 25 : 30
 })
 
 
@@ -180,7 +182,7 @@ function onVisualCheckedChange() {
             <div class="flex flex-row max-h-screen">
                 <div>
                     <video controls
-                           id="video" @seeked="onVideoSeeked" @seeking="onVideoSeeking" width="640" height="360"
+                           id="video" @seeked="onVideoSeeked" width="640" height="360"
                            style="border-radius: 1rem">
                         <source :src="dataPathStore.videoPath" type="video/mp4">
                     </video>
@@ -208,8 +210,8 @@ function onVisualCheckedChange() {
                             <h2 class="card-title flex-none">Visual Modality</h2>
                             <div class="grow" />
                             <div class="card-actions flex-none">
-                                <input type="checkbox" checked="checked" class="checkbox checkbox-primary"
-                                       v-model="visualChecked" @change="onVisualCheckedChange" />
+                                <input type="checkbox" class="checkbox checkbox-primary" v-model="visualChecked"
+                                       @change="onVisualCheckedChange" />
                             </div>
                         </div>
                         <FaceBlock :face-rows="faceRows" />
@@ -224,8 +226,7 @@ function onVisualCheckedChange() {
                                 <h2 class="card-title flex-none">Audio Modality</h2>
                                 <div class="grow w-1" />
                                 <div class="card-actions flex-none">
-                                    <input type="checkbox" checked="checked" class="checkbox checkbox-primary"
-                                           v-model="audioChecked"/>
+                                    <input type="checkbox" class="checkbox checkbox-primary" v-model="audioChecked"/>
                                 </div>
                             </div>
                             <AffectivePlot
@@ -247,8 +248,7 @@ function onVisualCheckedChange() {
                                 <h2 class="card-title flex-none">Text Modality</h2>
                                 <div class="grow w-1" />
                                 <div class="card-actions flex-none">
-                                    <input type="checkbox" checked="checked" class="checkbox checkbox-primary"
-                                           v-model="textChecked" />
+                                    <input type="checkbox" class="checkbox checkbox-primary" v-model="textChecked" />
                                 </div>
                             </div>
                             <AffectivePlot

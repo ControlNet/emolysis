@@ -2,6 +2,9 @@ export const EMOTIONS = [
     "fear", "anger", "joy", "sadness", "disgust", "surprise", "trust", "anticipation", "neutral"
 ]
 
+export const PAPER_URL = ""
+export const GITHUB_URL = "https://github.com/ControlNet/emolysis"
+
 export type MessageStatus =
     "uploaded"
     | "audio"

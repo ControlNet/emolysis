@@ -27,6 +27,7 @@ coverage
 *.sln
 *.sw?
 /data
+public/data
 *.ckpt
 *.pt
 *.pth

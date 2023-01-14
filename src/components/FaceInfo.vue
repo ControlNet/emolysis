@@ -95,7 +95,7 @@ function onCheckboxChange() {
         </div>
         <div class="flex flex-col">
             <div class="grow" />
-            <input type="checkbox" checked="checked" class="checkbox checkbox-primary" v-model="faceChecked"
+            <input type="checkbox" class="checkbox checkbox-primary" v-model="faceChecked"
                    @change="onCheckboxChange" />
             <div class="grow" />
         </div>

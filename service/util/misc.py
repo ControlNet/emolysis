@@ -1,8 +1,11 @@
 import os
+from pathlib import Path
 from typing import BinaryIO, List
 
 from fastapi import HTTPException, Request, status
 from fastapi.responses import StreamingResponse
+from tqdm.auto import tqdm
+from urllib.request import urlretrieve
 
 
 class VideoNamePool:
@@ -11,7 +14,7 @@ class VideoNamePool:
     @classmethod
     def init(cls):
         all_video_ids: List[int] = []
-        for directory in filter(os.path.isdir, os.listdir(os.getcwd())):
+        for directory in filter(lambda x: os.path.isdir(os.path.join("data", x)), os.listdir("data")):
             try:
                 all_video_ids.append(int(directory))
             except ValueError:
@@ -97,3 +100,25 @@ def range_requests_response(
         headers=headers,
         status_code=status_code,
     )
+
+
+class DownloadProgressBar(tqdm):
+    total: int
+
+    def update_to(self, b=1, bsize=1, tsize=None):
+        if tsize is not None:
+            self.total = tsize
+        self.update(b * bsize - self.n)
+
+
+def download_file(url: str, file_path: str, progress_bar: bool = True) -> str:
+    path = Path(file_path)
+    path.parent.mkdir(exist_ok=True, parents=True)
+    if not path.exists():
+        if progress_bar:
+            with DownloadProgressBar(unit="B", unit_scale=True, miniters=1, desc=f"Downloading {path.name}") as pb:
+                urlretrieve(url, filename=path, reporthook=pb.update_to)
+        else:
+            urlretrieve(url, filename=path)
+
+    return str(path)

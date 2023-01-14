@@ -12,12 +12,12 @@ def get_model():
     return _model
 
 
-def text2speech(file_path: str, output_path: str):
+def text2speech(file_path: str, output_path: str, lang: str):
     model = get_model()
-    result = model.transcribe(file_path, language="en")
+    result = model.transcribe(file_path, language=lang)
 
     pathlib.Path(output_path).parent.mkdir(exist_ok=True, parents=True)
-    with open(output_path, "w") as f:
+    with open(output_path, "w", encoding="UTF-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=4)
 
     print(f"[text2speech] Process {pathlib.Path(file_path).parent.name}")
