@@ -1,0 +1,60 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Install dependencies
+      run: |
+        npm install
+      env:
+        CI: true
+
+    - uses: robinraju/release-downloader@v1.7
+      name: Download Sample Data
+      with:
+        tag: "misc"
+        fileName: "data.zip"
+
+    - name: Unzip Sample Data
+      run: |
+        mkdir public
+        mkdir public/data
+        unzip data.zip -d public/data
+        rm data.zip
+
+    - name: Build with Sample Data
+      env:
+        VITE_API_URL: ${{ secrets.VITE_API_URL }}
+      run: npm run build
+
+    - name: Init git and commit
+      env:
+        EMOLYSIS_REPO_PRIVATE: ${{ secrets.EMOLYSIS_REPO_PRIVATE }}
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$EMOLYSIS_REPO_PRIVATE" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        git config --global user.email "smczx@hotmail.com"
+        git config --global user.name "ControlNet"
+        rm -rf .git
+        cd dist
+        git init
+        git add -A
+        git commit -m "update"
+        git remote add origin-ssh git@github.com:ControlNet/emolysis.git
+
+    - name: Push
+      run: |
+        cd dist
+        git push origin-ssh HEAD:web -f
