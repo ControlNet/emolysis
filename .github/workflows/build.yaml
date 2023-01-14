@@ -27,10 +27,12 @@ jobs:
 
     - name: Unzip Sample Data
       run: |
-        mkdir public
         mkdir public/data
         unzip data.zip -d public/data
         rm data.zip
+
+    - name: Add CNAME
+      run: echo "emolysis.controlnet.space" > public/CNAME
 
     - name: Build with Sample Data
       env:
