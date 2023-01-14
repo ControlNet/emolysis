@@ -13,7 +13,7 @@ from gen_audio_result import process_audio_file
 from gen_text_result import process_text_file
 from gen_visual_result import process_video_file
 from model.text2speech import text2speech
-from util.misc import VideoNamePool, range_requests_response
+from util.misc import VideoNamePool, range_requests_response, prepare_checkpoints
 
 warnings.filterwarnings("ignore")
 
@@ -28,6 +28,7 @@ app.add_middleware(
 )
 
 VideoNamePool.init()
+prepare_checkpoints()
 
 
 @app.get("/data/{video_id}/{file_name}")

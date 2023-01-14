@@ -7,6 +7,8 @@ from fastapi.responses import StreamingResponse
 from tqdm.auto import tqdm
 from urllib.request import urlretrieve
 
+from util.consts import AUDIO_MODEL_PATH, LINGUISTIC_MODEL_EN_PATH, LINGUISTIC_MODEL_ZH_PATH
+
 
 class VideoNamePool:
     latest = -1
@@ -31,6 +33,23 @@ class VideoNamePool:
     def get(cls):
         cls.latest += 1
         return cls.latest
+
+
+def prepare_checkpoints():
+    if not os.path.exists("checkpoints"):
+        os.mkdir("checkpoints")
+
+    audio_path = os.path.join("checkpoints", "audio_model_trill.pt")
+    if not os.path.exists(os.path.join("checkpoints", "audio_model_trill.pt")):
+        download_file(AUDIO_MODEL_PATH, audio_path)
+
+    linguistic_en_path = os.path.join("checkpoints", "linguistic_head_en.ckpt")
+    if not os.path.exists(linguistic_en_path):
+        download_file(LINGUISTIC_MODEL_EN_PATH, linguistic_en_path)
+
+    linguistic_zh_path = os.path.join("checkpoints", "linguistic_head_zh.ckpt")
+    if not os.path.exists(linguistic_zh_path):
+        download_file(LINGUISTIC_MODEL_ZH_PATH, linguistic_zh_path)
 
 
 # https://github.com/tiangolo/fastapi/issues/1240
