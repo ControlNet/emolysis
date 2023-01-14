@@ -14,6 +14,8 @@ class VideoNamePool:
     @classmethod
     def init(cls):
         all_video_ids: List[int] = []
+        if not os.path.exists("data"):
+            os.mkdir("data")
         for directory in filter(lambda x: os.path.isdir(os.path.join("data", x)), os.listdir("data")):
             try:
                 all_video_ids.append(int(directory))
