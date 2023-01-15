@@ -33,7 +33,6 @@ prepare_checkpoints()
 
 @app.get("/data/{video_id}/{file_name}")
 async def get_file(video_id: str, file_name: str, request: Request):
-    print(request, video_id, file_name)
     path = str(Path("data") / video_id / file_name)
     if file_name.split(".")[-1] == "mp4":
         return range_requests_response(

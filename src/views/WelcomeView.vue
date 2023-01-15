@@ -105,7 +105,6 @@ async function onClick() {
                 }
                 case "done": {
                     const {id} = data.data as MessageResultData
-                    console.log("href", `/remote/${id}`)
                     window.location.href = `/remote/${id}`
                     break
                 }
