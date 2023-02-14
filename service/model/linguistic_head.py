@@ -174,36 +174,26 @@ class LinguisticHeadZh(NekoModel):
 
         hidden = self.hidden_fc(features)
         pred_emotion = self.emotion_classifier(hidden)
-        pred_emotion = pred_emotion.softmax(dim=1)
         pred_valence = self.valence_fc(hidden)
         pred_arousal = self.arousal_fc(hidden)
         return pred_valence, pred_arousal, pred_emotion, hidden
 
     def step(self, batch: Optional[Union[Tensor, Sequence[Tensor]]]):
         x, y_sentiment, y_emotion, y_valence, y_arousal = batch
-        pred_sentiment, pred_emotion, pred_valence, pred_arousal = self(x)
+        pred_valence, pred_arousal, pred_emotion, hidden = self(x)
 
         results = {}
-
-        if y_sentiment is not None:
-            pred_sentiment = pred_sentiment.softmax(dim=1)
-            results["s_loss"] = self.sentiment_loss_fn(
-                pred_sentiment, y_sentiment)
-            results["s_acc"] = self._s_acc_fn(pred_sentiment, y_sentiment)
-            results["loss"] = results["s_loss"]
-
-        elif y_emotion is not None and y_valence is not None and y_arousal is not None:
-            pred_emotion = pred_emotion.softmax(dim=1)
-            e_loss = self.emotion_loss_fn(pred_emotion, y_emotion.float())
-            v_loss = self.valence_loss_fn(pred_valence, y_valence)
-            a_loss = self.arousal_loss_fn(pred_arousal, y_arousal)
-            loss = e_loss + v_loss + a_loss
-            results["loss"] = loss
-            results["e_loss"] = e_loss
-            results["e_acc"] = self._e_acc_fn(
-                pred_emotion.sigmoid(), y_emotion)
-            results["v_loss"] = v_loss
-            results["a_loss"] = a_loss
+        pred_emotion = pred_emotion.softmax(dim=1)
+        e_loss = self.emotion_loss_fn(pred_emotion, y_emotion.float())
+        v_loss = self.valence_loss_fn(pred_valence, y_valence)
+        a_loss = self.arousal_loss_fn(pred_arousal, y_arousal)
+        loss = e_loss + v_loss + a_loss
+        results["loss"] = loss
+        results["e_loss"] = e_loss
+        results["e_acc"] = self._e_acc_fn(
+            pred_emotion.sigmoid(), y_emotion)
+        results["v_loss"] = v_loss
+        results["a_loss"] = a_loss
 
         return results
 

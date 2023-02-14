@@ -6,7 +6,7 @@ from starlette.websockets import WebSocket
 
 from model.linguistic_head import get_tokenizer_zh, get_linguistic_model_zh, get_tokenizer_en, predict_emotion_en, \
     get_linguistic_model_en
-from util.consts import DEVICE, COMMUNICATION_LINGUISTIC_STEP
+from util.consts import DEVICE
 from util.label_space_mapping import bold_to_main, bold_to_main_valence, bold_to_main_arousal
 
 
@@ -21,7 +21,7 @@ def get_results_from_text_zh(msg):
         tokenized_text["attention_mask"] = tokenized_text["attention_mask"][:, :512]
     output_valence, output_arousal, output_emo, _ = linguistic_model(tokenized_text)
 
-    output_emo = output_emo.cpu().detach().numpy()
+    output_emo = output_emo.softmax(dim=1).cpu().detach().numpy()
     output_valence = output_valence.cpu().detach().numpy()
     output_arousal = output_arousal.cpu().detach().numpy()
 

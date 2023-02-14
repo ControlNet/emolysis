@@ -2,7 +2,7 @@ import os.path
 
 import torch
 
-DEVICE = torch.device("cuda:0")
+DEVICE = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 SEGMENT_STRIDE = 7.5
 SEGMENT_DURATION = 15.0
 REQUIRED_SAMPLE_RATE = 16000
