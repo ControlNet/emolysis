@@ -2,7 +2,7 @@ let socket: WebSocket | undefined = undefined;
 
 export function getSocket() {
     if (socket === undefined || socket.readyState === WebSocket.CLOSED) {
-        socket = new WebSocket(`ws://${import.meta.env.VITE_API_URL}/ws/`)
+        socket = new WebSocket(`ws://${window.location.host}/ws/`)
     }
     return socket;
 }

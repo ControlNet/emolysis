@@ -108,10 +108,10 @@ async def socket_connection(socket: WebSocket):
     await socket.close()
 
 
-app.mount("/", StaticFiles(directory="../dist", html=True))
+app.mount("/", StaticFiles(directory=Path(__file__).parent.parent / "dist", html=True))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("port", type=int, help="port to run server on", default=8000)
+    parser.add_argument("--port", "-p", type=int, help="port to run server on", default=8000)
     args = parser.parse_args()
     uvicorn.run(app, host="0.0.0.0", port=args.port)
