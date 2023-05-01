@@ -14,6 +14,7 @@ import { getAudioDataByFrame } from "@/preprocess/audio";
 import { getTextDataByFrame } from "@/preprocess/text";
 import FooterBlock from "@/components/FooterBlock.vue";
 import axios from "axios";
+import { getLocalDataPath, getRemoteDataFps, getRemoteDataPath } from "@/global/api";
 
 const visualChecked = ref(true);
 const audioChecked = ref(true);
@@ -137,12 +138,12 @@ const route = useRoute()
 onBeforeMount(async () => {
     switch (route.params.mode) {
         case "remote":
-            await dataPathStore.setDataDir(`http://${import.meta.env.VITE_API_URL}/data/${route.params.videoId}`)
-            const response = await axios.get(`http://${import.meta.env.VITE_API_URL}/fps/${route.params.videoId}`)
+            await dataPathStore.setDataDir(getRemoteDataPath(route.params.videoId as string))
+            const response = await axios.get(getRemoteDataFps(route.params.videoId as string))
             config.fps = await response.data.fps
             break
         case "local":
-            await dataPathStore.setDataDir(`/data/${route.params.videoId}`)
+            await dataPathStore.setDataDir(getLocalDataPath(route.params.videoId as string))
             break
         default:
             document.location.href = "/"

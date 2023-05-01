@@ -1,8 +1,10 @@
 import warnings
+import argparse
 from pathlib import Path
 
 import uvicorn
 from fastapi import FastAPI, UploadFile
+from fastapi.staticfiles import StaticFiles
 from moviepy.video.io.VideoFileClip import VideoFileClip
 from starlette.middleware.cors import CORSMiddleware
 from starlette.requests import Request
@@ -31,7 +33,7 @@ VideoNamePool.init()
 prepare_checkpoints()
 
 
-@app.get("/data/{video_id}/{file_name}")
+@app.get("/api/data/{video_id}/{file_name}")
 async def get_file(video_id: str, file_name: str, request: Request):
     path = str(Path("data") / video_id / file_name)
     if file_name.split(".")[-1] == "mp4":
@@ -72,7 +74,7 @@ async def process_uploaded(video_path: str, lang: str, socket: WebSocket):
     }
 
 
-@app.post("/upload")
+@app.post("/api/upload")
 async def upload_video(file: UploadFile):
     file_id = VideoNamePool.get()
     path = Path(f"data/{file_id}")
@@ -83,7 +85,7 @@ async def upload_video(file: UploadFile):
     return {"file_id": file_id}
 
 
-@app.get("/fps/{video_id}")
+@app.get("/api/fps/{video_id}")
 async def get_fps(video_id: str):
     video_path = Path(f"data/{video_id}/video.mp4")
     with VideoFileClip(str(video_path)) as video:
@@ -91,7 +93,7 @@ async def get_fps(video_id: str):
         return {"fps": fps}
 
 
-@app.websocket("/")
+@app.websocket("/ws/")
 async def socket_connection(socket: WebSocket):
     await socket.accept()
     video_info = await socket.receive_json()
@@ -106,5 +108,10 @@ async def socket_connection(socket: WebSocket):
     await socket.close()
 
 
+app.mount("/", StaticFiles(directory="../dist", html=True))
+
 if __name__ == '__main__':
-    uvicorn.run(app, host="0.0.0.0", port=16000)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("port", type=int, help="port to run server on", default=8000)
+    args = parser.parse_args()
+    uvicorn.run(app, host="0.0.0.0", port=args.port)

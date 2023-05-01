@@ -6,6 +6,7 @@ import { closeSocket, getSocket } from "@/global/socket";
 import type { Message, MessageProcessData, MessageResultData, MessageVideoData } from "@/global/consts";
 import _ from "lodash";
 import axios from "axios";
+import { getRemoteUploadApi } from "@/global/api";
 
 const showProgressBar = ref(false)
 const buttonAvailable = ref(true)
@@ -39,7 +40,7 @@ async function onClick() {
 
         const formData = new FormData()
         formData.append("file", file)
-        const postPromise = axios.post(`http://${import.meta.env.VITE_API_URL}/upload`, formData, {
+        const postPromise = axios.post(getRemoteUploadApi(), formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 "Accept": "application/json"
