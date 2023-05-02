@@ -21,6 +21,8 @@ Run the server.
 docker run --runtime nvidia -p <PORT>:8000 controlnet/emolysis
 ```
 
+Then, you can access the app at `http://127.0.0.1:<PORT>`.
+
 ### From Source
 
 Requires:
@@ -41,3 +43,5 @@ Run the server.
 ```bash
 python service/main.py <PORT>
 ```
+
+Then, you can access the app at `http://127.0.0.1:<PORT>`.
