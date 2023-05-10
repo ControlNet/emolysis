@@ -1,4 +1,4 @@
-# Emolysis
+# Emolysis: A Multimodal Open-Source Group Emotion Analysis and Visualization Toolkit
 
 <div align="center">
     <img src="assets/emolysis.webp">
