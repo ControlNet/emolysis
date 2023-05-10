@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you find this work useful for your research, please consider citing it."
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Ghosh"
+    given-names: "Shreya"
+  - family-names: "Cai"
+    given-names: "Zhixi"
+  - family-names: "Gupta"
+    given-names: "Parul"
+  - family-names: "Sharma"
+    given-names: "Garima"
+  - family-names: "Dhall"
+    given-names: "Abhinav"
+  - family-names: "Hayat"
+    given-names: "Munawar"
+  - family-names: "Gedeon"
+    given-names: "Tom"
+  journal: "arXiv preprint arXiv:2305.05255"
+  title: "Emolysis: A Multimodal Open-Source Group Emotion Analysis and Visualization Toolkit"
+  year: 2023
