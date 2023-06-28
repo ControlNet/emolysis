@@ -69,7 +69,7 @@ cd ..
 
 Run the server.
 ```bash
-python service/main.py <PORT>
+python service/main.py --port <PORT>
 ```
 
 Then, you can access the app at `http://127.0.0.1:<PORT>`.
