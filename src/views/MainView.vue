@@ -304,7 +304,7 @@ function capturePageScreenshot(privacy: boolean = false) {
                     <!-- Screenshot Button -->
                     <div class="flex mt-3">
                         <button class="flex-1 btn btn-primary mr-3" @click="() => capturePageScreenshot(false)">Screenshot</button>
-                        <button class="flex-1 btn" @click="() => capturePageScreenshot(true)">Screenshot Privacy</button>
+                        <button class="flex-1 btn" @click="() => capturePageScreenshot(true)">Privacy Mode Screenshot</button>
                     </div>
 
                     <div class="card w-auto h-auto bg-base-300 my-3 shadow-xl" style="min-height: 240px!important;">
