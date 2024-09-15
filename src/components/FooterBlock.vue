@@ -7,7 +7,7 @@ import { GITHUB_URL, PAPER_URL } from "@/global/consts";
     <footer class="footer footer-center p-4 bg-base-300 text-base-content bottom-0 absolute">
         <div class="flex w-full">
             <div class="w-1" />
-            <p class="h-5">Authors: Shreya Ghosh, Zhixi Cai, Parul Gupta, Garima Sharma, Abhinav Dhall, Munawar Hayat</p>
+            <p class="h-5">Authors: Shreya Ghosh*, Zhixi Cai*, Parul Gupta, Garima Sharma, Abhinav Dhall, Munawar Hayat</p>
             <div class="grow" />
             <a :href="PAPER_URL">Paper</a>
             <a :href="PAPER_URL"><font-awesome-icon icon="fa-solid fa-book" class="h-5 align-middle"/></a>

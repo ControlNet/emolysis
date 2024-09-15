@@ -134,24 +134,8 @@ onUpdated(() => {
     </div>
 </template>
 
-<style>
-.bar {
-}
-
-.emotion-bar {
-    @apply bar fill-blue-800
-}
-
-.valence-bar {
-    @apply bar fill-emerald-800
-}
-
-.arousal-bar {
-    @apply bar fill-orange-800
-}
-
+<style scoped>
 .affective-block {
     @apply p-0.5
 }
-
 </style>
