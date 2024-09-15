@@ -38,7 +38,7 @@ If you want to analyze your own video, please follow the instructions below to d
 
 ## Deploy the Server
 
-### From Docker
+### From Docker (x86 with CUDA)
 
 Requires:
 - Docker
