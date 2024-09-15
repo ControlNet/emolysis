@@ -2,6 +2,7 @@ import { useDataPathStore } from "@/stores/dataPathStore";
 import * as d3 from "d3";
 import { config } from "@/config";
 import _ from "lodash";
+import type { DataRow } from "@/preprocess/common";
 
 type TextCsv = Array<{
     start: string,
@@ -21,12 +22,7 @@ type TextCsv = Array<{
 
 type TextData = Map<number, TextRow>
 
-export interface TextRow {
-    frame: number
-    valence: number
-    arousal: number
-    emotionProb: Array<number>
-}
+export interface TextRow extends DataRow {}
 
 const textData: TextData = new Map();
 
@@ -34,7 +30,12 @@ async function loadTextData(): Promise<void> {
     const dataPathStore = useDataPathStore()
     const d = await d3.csv(dataPathStore.textDataPath) as TextCsv
 
-    d.forEach(row => {
+    d.forEach((row, index) => {
+        // drop last row
+        if (index === d.length - 1) {
+            return
+        }
+
         const start = parseInt(row.start) * config.fps
         const end = parseInt(row.end) * config.fps
         const valence = _.round(parseFloat(row.valence))

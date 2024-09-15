@@ -1,5 +1,6 @@
 import { useDataPathStore } from "@/stores/dataPathStore";
 import * as d3 from "d3";
+import type { DataRow } from "@/preprocess/common";
 
 type FaceCsv = Array<{
     frame: string,
@@ -24,24 +25,15 @@ type FaceCsv = Array<{
 
 type FaceData = Map<number, Array<FaceRow>>
 
-export interface FaceRow {
-    frame: number
+export interface FaceRow extends DataRow {
     x1: number
     x2: number
     y1: number
     y2: number
     boxProb: number
-    valence: number
-    arousal: number
-    emotionProb: Array<number>
 }
 
-export interface VisualRow {
-    frame: number
-    valence: number
-    arousal: number
-    emotionProb: Array<number>
-}
+export interface VisualRow extends DataRow {}
 
 const faceData: FaceData = new Map();
 

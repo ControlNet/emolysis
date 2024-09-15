@@ -7,7 +7,7 @@ import * as _ from "lodash";
 import { useDataPathStore } from "@/stores/dataPathStore";
 import { useVideoStore } from "@/stores/videoStore";
 import { config } from "@/config";
-import AffectivePlot from "@/components/AffectivePlot.vue";
+import AffectiveBarPlot from "@/components/AffectiveBarPlot.vue";
 import { useRoute } from "vue-router";
 import { useFaceCheckedStore } from "@/stores/faceCheckedStore";
 import { getAudioDataByFrame } from "@/preprocess/audio";
@@ -15,6 +15,8 @@ import { getTextDataByFrame } from "@/preprocess/text";
 import FooterBlock from "@/components/FooterBlock.vue";
 import axios from "axios";
 import { getLocalDataPath, getRemoteDataFps, getRemoteDataPath } from "@/global/api";
+import AffectiveLinePlot from "@/components/AffectiveLinePlot.vue";
+import { useLineChartCheckedStore } from "@/stores/lineChartCheckedStore";
 
 const visualChecked = ref(true);
 const audioChecked = ref(true);
@@ -36,6 +38,7 @@ const textRow = computed(() => {
 const faceCheckedStore = useFaceCheckedStore()
 const dataPathStore = useDataPathStore()
 const videoStore = useVideoStore()
+const lineChartCheckedStore = useLineChartCheckedStore()
 
 const analysisEnable = computed(() => faceRows.value.length > 0)
 
@@ -191,7 +194,7 @@ function onVisualCheckedChange() {
                     <div class="card w-auto h-auto bg-base-300 my-3 shadow-xl" style="min-height: 240px!important;">
                         <div class="card-body">
                             <h2 class="card-title">Overall Result</h2>
-                            <AffectivePlot
+                            <AffectiveBarPlot
                                 v-if="analysisEnable"
                                 :emotion-prob="emotionProb"
                                 :index="100"
@@ -227,17 +230,34 @@ function onVisualCheckedChange() {
                                 <h2 class="card-title flex-none">Audio Modality</h2>
                                 <div class="grow w-1" />
                                 <div class="card-actions flex-none">
+                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 22h1v-5h4v5h2v-10h4v10h2v-15h4v15h2v-21h4v21h1v1h-24v-1zm4-4h-2v4h2v-4zm6-5h-2v9h2v-9zm6-5h-2v14h2v-14zm6-6h-2v20h2v-20z"/></svg>
+                                    <input type="checkbox" class="toggle toggle-primary" v-model="lineChartCheckedStore.audioChecked"/>
+                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 3.875l-6 1.221 1.716 1.708-5.351 5.358-3.001-3.002-7.336 7.242 1.41 1.418 5.922-5.834 2.991 2.993 6.781-6.762 1.667 1.66 1.201-6.002zm0 17.125v2h-24v-22h2v20h22z"/></svg>
+                                </div>
+                                <div class="grow w-1" />
+                                <div class="card-actions flex-none">
                                     <input type="checkbox" class="checkbox checkbox-primary" v-model="audioChecked"/>
                                 </div>
                             </div>
-                            <AffectivePlot
-                                v-if="analysisEnable"
+                            <AffectiveBarPlot
+                                v-if="analysisEnable && !lineChartCheckedStore.audioChecked"
                                 :emotion-prob="audioEmotionProb"
                                 :index="101"
                                 :length="config.faceInfoBarLength"
                                 :svgWidth="config.overallBarLength"
                                 :valence="audioValence"
                                 :arousal="audioArousal"
+                            />
+                            <AffectiveLinePlot
+                                v-if="analysisEnable && lineChartCheckedStore.audioChecked"
+                                :svgWidth="config.overallBarLength"
+                                :length="config.faceInfoLineLength"
+                                :emotion-prob="audioEmotionProb"
+                                :valence="audioValence"
+                                :arousal="audioArousal"
+                                :current-frame="currentFrame"
+                                :index="101"
+                                type="audio"
                             />
                         </div>
                     </div>
@@ -249,11 +269,17 @@ function onVisualCheckedChange() {
                                 <h2 class="card-title flex-none">Text Modality</h2>
                                 <div class="grow w-1" />
                                 <div class="card-actions flex-none">
+                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 22h1v-5h4v5h2v-10h4v10h2v-15h4v15h2v-21h4v21h1v1h-24v-1zm4-4h-2v4h2v-4zm6-5h-2v9h2v-9zm6-5h-2v14h2v-14zm6-6h-2v20h2v-20z"/></svg>
+                                    <input type="checkbox" class="toggle toggle-primary" v-model="lineChartCheckedStore.textChecked"/>
+                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 3.875l-6 1.221 1.716 1.708-5.351 5.358-3.001-3.002-7.336 7.242 1.41 1.418 5.922-5.834 2.991 2.993 6.781-6.762 1.667 1.66 1.201-6.002zm0 17.125v2h-24v-22h2v20h22z"/></svg>
+                                </div>
+                                <div class="grow w-1" />
+                                <div class="card-actions flex-none">
                                     <input type="checkbox" class="checkbox checkbox-primary" v-model="textChecked" />
                                 </div>
                             </div>
-                            <AffectivePlot
-                                v-if="analysisEnable"
+                            <AffectiveBarPlot
+                                v-if="analysisEnable && !lineChartCheckedStore.textChecked"
                                 :emotion-prob="textEmotionProb"
                                 :index="102"
                                 :length="config.faceInfoBarLength"
@@ -261,6 +287,18 @@ function onVisualCheckedChange() {
                                 :valence="textValence"
                                 :arousal="textArousal"
                             />
+                            <AffectiveLinePlot
+                                v-if="analysisEnable && lineChartCheckedStore.textChecked"
+                                :svgWidth="config.overallBarLength"
+                                :length="config.faceInfoLineLength"
+                                :emotion-prob="textEmotionProb"
+                                :valence="textValence"
+                                :arousal="textArousal"
+                                :current-frame="currentFrame"
+                                :index="102"
+                                type="text"
+                            />
+
                         </div>
                     </div>
                 </div>

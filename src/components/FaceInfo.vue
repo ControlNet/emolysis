@@ -3,7 +3,7 @@ import type { FaceRow } from "@/preprocess/faces";
 import { computed, onUnmounted, onUpdated, ref } from "vue";
 import { config } from "@/config";
 import { moveTo } from "@/utils";
-import AffectivePlot from "@/components/AffectivePlot.vue";
+import AffectiveBarPlot from "@/components/AffectiveBarPlot.vue";
 import { useVideoStore } from "@/stores/videoStore";
 import { useFaceCheckedStore } from "@/stores/faceCheckedStore";
 
@@ -84,7 +84,7 @@ function onCheckboxChange() {
             />
         </div>
         <div>
-            <AffectivePlot
+            <AffectiveBarPlot
                 :emotion-prob="props.d.emotionProb"
                 :valence="props.d.valence"
                 :arousal="props.d.arousal"

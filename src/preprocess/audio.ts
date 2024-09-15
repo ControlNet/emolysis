@@ -2,6 +2,7 @@ import { useDataPathStore } from "@/stores/dataPathStore";
 import * as d3 from "d3";
 import { config } from "@/config";
 import _ from "lodash";
+import type { DataRow } from "@/preprocess/common";
 
 type AudioCsv = Array<{
     start: string,
@@ -21,12 +22,7 @@ type AudioCsv = Array<{
 
 type AudioData = Map<number, AudioRow>
 
-export interface AudioRow {
-    frame: number
-    valence: number
-    arousal: number
-    emotionProb: Array<number>
-}
+export interface AudioRow extends DataRow {}
 
 const audioData: AudioData = new Map();
 
