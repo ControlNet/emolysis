@@ -46,7 +46,7 @@ Requires:
 
 Run the server.
 ```bash
-docker run --runtime nvidia -p <PORT>:8000 controlnet/emolysis
+docker run --runtime nvidia -p <PORT>:8000 [-v <CACHE_DIR_FOR_MODELS>:/app/checkpoints] --name emolysis controlnet/emolysis
 ```
 
 Then, you can access the app at `http://127.0.0.1:<PORT>`.
@@ -62,7 +62,7 @@ Install dependencies.
 npm install
 npm run build
 cd service
-bash -i build_env.sh
+bash -i build_env.sh  # use `build_env.mac.sh` for arm-based mac
 conda activate emolysis
 cd ..
 ```

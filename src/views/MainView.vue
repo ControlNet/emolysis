@@ -284,6 +284,24 @@ function capturePageScreenshot(privacy: boolean = false) {
     }
 }
 
+function captureDivScreenshot(divId: string) {
+    const element = document.getElementById(divId);
+
+    if (element) {
+        html2canvas(element).then((canvas) => {
+            const dataURL = canvas.toDataURL("image/png");
+
+            // Create a download link and trigger the download
+            const link = document.createElement("a");
+            link.href = dataURL;
+            link.download = "div_screenshot.png";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
+}
+
 </script>
 
 <template id="main-view">
@@ -303,13 +321,35 @@ function capturePageScreenshot(privacy: boolean = false) {
 
                     <!-- Screenshot Button -->
                     <div class="flex mt-3">
-                        <button class="flex-1 btn btn-primary mr-3" @click="() => capturePageScreenshot(false)">Screenshot</button>
-                        <button class="flex-1 btn" @click="() => capturePageScreenshot(true)">Privacy Mode Screenshot</button>
+                        <button class="flex-1 btn btn-primary mr-3" @click="() => capturePageScreenshot(false)">
+                            Screenshot
+                        </button>
+                        <button class="flex-1 btn" @click="() => capturePageScreenshot(true)">Privacy Mode Screenshot
+                        </button>
                     </div>
 
-                    <div class="card w-auto h-auto bg-base-300 my-3 shadow-xl" style="min-height: 240px!important;">
+                    <div id="overall-card" class="card w-auto h-auto bg-base-300 my-3 shadow-xl" style="min-height: 240px!important;">
                         <div class="card-body">
-                            <h2 class="card-title">Overall Result</h2>
+                            <div class="flex">
+                                <h2 class="card-title">Overall Result</h2>
+                                <div class="grow"/>
+                                <label class="swap swap-rotate flex-none" @click="() => captureDivScreenshot('overall-card')">
+                                    <input type="checkbox"/>
+                                    <svg class="swap-on fill-current" width="24" height="24" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 512 512">
+                                        <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path
+                                            d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
+                                    </svg>
+                                    <svg class="swap-off fill-current" width="24" height="24" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 512 512">
+                                        <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path
+                                            d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
+                                    </svg>
+                                </label>
+
+                            </div>
                             <AffectiveBarPlot
                                 v-if="analysisEnable"
                                 :emotion-prob="emotionProb"
@@ -329,6 +369,22 @@ function capturePageScreenshot(privacy: boolean = false) {
                         <div class="flex">
                             <h2 class="card-title flex-none">Visual Modality</h2>
                             <div class="grow"/>
+                            <label class="swap swap-rotate flex-none" @click="() => captureDivScreenshot('visual-card')">
+                                <input type="checkbox"/>
+                                <svg class="swap-on fill-current" width="24" height="24" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 512 512">
+                                    <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                    <path
+                                        d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
+                                </svg>
+                                <svg class="swap-off fill-current" width="24" height="24" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 512 512">
+                                    <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                    <path
+                                        d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
+                                </svg>
+                            </label>
+                            <div class="w-2"/>
                             <div class="card-actions flex-none">
                                 <input type="checkbox" class="checkbox checkbox-primary" v-model="visualChecked"
                                        @change="onVisualCheckedChange"/>
@@ -344,20 +400,40 @@ function capturePageScreenshot(privacy: boolean = false) {
                         <div class="card-body">
                             <div class="flex">
                                 <h2 class="card-title flex-none">Audio Modality</h2>
-                                <div class="grow w-1"/>
-                                <div class="card-actions flex-none">
-                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <div class="grow"/>
+
+                                <label class="swap swap-rotate flex-none" @click="() => captureDivScreenshot('audio-card')">
+                                    <input type="checkbox"/>
+                                    <svg class="swap-on fill-current" width="24" height="24" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 512 512">
+                                        <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path
+                                            d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
+                                    </svg>
+                                    <svg class="swap-off fill-current" width="24" height="24" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 512 512">
+                                        <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path
+                                            d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
+                                    </svg>
+                                </label>
+
+                                <div class="w-2"/>
+
+                                <label class="swap swap-rotate flex-none">
+                                    <input type="checkbox" v-model="lineChartCheckedStore.audioChecked"/>
+                                    <svg class="swap-on fill-current" width="24" height="24"
+                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path
                                             d="M0 22h1v-5h4v5h2v-10h4v10h2v-15h4v15h2v-21h4v21h1v1h-24v-1zm4-4h-2v4h2v-4zm6-5h-2v9h2v-9zm6-5h-2v14h2v-14zm6-6h-2v20h2v-20z"/>
                                     </svg>
-                                    <input type="checkbox" class="toggle toggle-primary"
-                                           v-model="lineChartCheckedStore.audioChecked"/>
-                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <svg class="swap-off fill-current" width="24" height="24"
+                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path
                                             d="M24 3.875l-6 1.221 1.716 1.708-5.351 5.358-3.001-3.002-7.336 7.242 1.41 1.418 5.922-5.834 2.991 2.993 6.781-6.762 1.667 1.66 1.201-6.002zm0 17.125v2h-24v-22h2v20h22z"/>
                                     </svg>
-                                </div>
-                                <div class="grow w-1"/>
+                                </label>
+                                <div class="w-2"/>
                                 <div class="card-actions flex-none">
                                     <input type="checkbox" class="checkbox checkbox-primary" v-model="audioChecked"/>
                                 </div>
@@ -390,20 +466,39 @@ function capturePageScreenshot(privacy: boolean = false) {
                         <div class="card-body">
                             <div class="flex">
                                 <h2 class="card-title flex-none">Text Modality</h2>
-                                <div class="grow w-1"/>
-                                <div class="card-actions flex-none">
-                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <div class="grow"/>
+
+                                <label class="swap swap-rotate flex-none" @click="() => captureDivScreenshot('text-card')">
+                                    <input type="checkbox"/>
+                                    <svg class="swap-on fill-current" width="24" height="24" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 512 512">
+                                        <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path
+                                            d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
+                                    </svg>
+                                    <svg class="swap-off fill-current" width="24" height="24" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 512 512">
+                                        <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path
+                                            d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
+                                    </svg>
+                                </label>
+
+                                <div class="w-2"/>
+                                <label class="swap swap-rotate flex-none">
+                                    <input type="checkbox" v-model="lineChartCheckedStore.textChecked"/>
+                                    <svg class="swap-on fill-current" width="24" height="24"
+                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path
                                             d="M0 22h1v-5h4v5h2v-10h4v10h2v-15h4v15h2v-21h4v21h1v1h-24v-1zm4-4h-2v4h2v-4zm6-5h-2v9h2v-9zm6-5h-2v14h2v-14zm6-6h-2v20h2v-20z"/>
                                     </svg>
-                                    <input type="checkbox" class="toggle toggle-primary"
-                                           v-model="lineChartCheckedStore.textChecked"/>
-                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <svg class="swap-off fill-current" width="24" height="24"
+                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                         <path
                                             d="M24 3.875l-6 1.221 1.716 1.708-5.351 5.358-3.001-3.002-7.336 7.242 1.41 1.418 5.922-5.834 2.991 2.993 6.781-6.762 1.667 1.66 1.201-6.002zm0 17.125v2h-24v-22h2v20h22z"/>
                                     </svg>
-                                </div>
-                                <div class="grow w-1"/>
+                                </label>
+                                <div class="w-2"/>
                                 <div class="card-actions flex-none">
                                     <input type="checkbox" class="checkbox checkbox-primary" v-model="textChecked"/>
                                 </div>
