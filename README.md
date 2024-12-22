@@ -21,6 +21,9 @@
     <a href="https://arxiv.org/abs/2305.05255">
         <img src="https://img.shields.io/badge/arXiv-2305.05255-b31b1b.svg?style=flat-square">
     </a>
+    <a href="https://huggingface.co/ControlNet/emolysis">
+        <img src="https://img.shields.io/badge/huggingface-model-FFD21E?style=flat-square&logo=huggingface">
+    </a>
 </div>
 
 <div align="center">
