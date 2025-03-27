@@ -83,7 +83,7 @@ If you find this work useful for your research, please consider citing it.
 ```bibtex
 @article{ghosh2023emolysis,
   title = {Emolysis: A Multimodal Open-Source Group Emotion Analysis and Visualization Toolkit},
-  action = {Ghosh, Shreya and Cai, Zhixi and Gupta, Parul and Sharma, Garima and Dhall, Abhinav and Hayat, Munawar and Gedeon, Tom},
+  author = {Ghosh, Shreya and Cai, Zhixi and Gupta, Parul and Sharma, Garima and Dhall, Abhinav and Hayat, Munawar and Gedeon, Tom},
   journal = {arXiv preprint arXiv:2305.05255},
   year = {2023},
 }
