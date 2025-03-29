@@ -81,10 +81,11 @@ Then, you can access the app at `http://127.0.0.1:<PORT>`.
 
 If you find this work useful for your research, please consider citing it.
 ```bibtex
-@article{ghosh2023emolysis,
+@inproceedings{ghosh2023emolysis,
   title = {Emolysis: A Multimodal Open-Source Group Emotion Analysis and Visualization Toolkit},
   author = {Ghosh, Shreya and Cai, Zhixi and Gupta, Parul and Sharma, Garima and Dhall, Abhinav and Hayat, Munawar and Gedeon, Tom},
-  journal = {arXiv preprint arXiv:2305.05255},
-  year = {2023},
+  booktitle = {International Conference on Affective Computing and Intelligent Interaction Workshops and Demos (ACIIW)},
+  year = {2024},
+  pages={1-3}
 }
 ```
