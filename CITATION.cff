@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you find this work useful for your research, please consider citing it."
 preferred-citation:
-  type: article
+  type: conference-paper
   authors:
   - family-names: "Ghosh"
     given-names: "Shreya"
@@ -17,6 +17,8 @@ preferred-citation:
     given-names: "Munawar"
   - family-names: "Gedeon"
     given-names: "Tom"
-  journal: "arXiv preprint arXiv:2305.05255"
+  collection-title: "International Conference on Affective Computing and Intelligent Interaction Workshops and Demos (ACIIW)"
   title: "Emolysis: A Multimodal Open-Source Group Emotion Analysis and Visualization Toolkit"
-  year: 2023
+  year: 2024
+  start: 1
+  end: 3
