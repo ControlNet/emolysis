@@ -31,7 +31,7 @@
     <a href="https://github.com/ControlNet/emolysis/actions"><img src="https://img.shields.io/github/actions/workflow/status/ControlNet/emolysis/build.yaml?branch=master&label=build&style=flat-square"></a>
 </div>
 
-This repo is official repository for the paper [Emolysis: A Multimodal Open-Source Group Emotion Analysis and Visualization Toolkit](https://arxiv.org/abs/2305.05255).
+This repo is official repository for the paper [Emolysis: A Multimodal Open-Source Group Emotion Analysis and Visualization Toolkit](https://ieeexplore.ieee.org/abstract/document/10970223).
 
 ## Get Started
 
@@ -82,10 +82,11 @@ Then, you can access the app at `http://127.0.0.1:<PORT>`.
 If you find this work useful for your research, please consider citing it.
 ```bibtex
 @inproceedings{ghosh2024emolysis,
-  title = {Emolysis: A Multimodal Open-Source Group Emotion Analysis and Visualization Toolkit},
-  author = {Ghosh, Shreya and Cai, Zhixi and Gupta, Parul and Sharma, Garima and Dhall, Abhinav and Hayat, Munawar and Gedeon, Tom},
-  booktitle = {International Conference on Affective Computing and Intelligent Interaction Workshops and Demos (ACIIW)},
-  year = {2024},
-  pages={1-3}
+  title={Emolysis: A multimodal open-source group emotion analysis and visualization toolkit},
+  author={Ghosh, Shreya and Cai, Zhixi and Gupta, Parul and Sharma, Garima and Dhall, Abhinav and Hayat, Munawar and Gedeon, Tom},
+  booktitle={2024 12th International Conference on Affective Computing and Intelligent Interaction Workshops and Demos (ACIIW)},
+  pages={116--118},
+  year={2024},
+  organization={IEEE}
 }
 ```
