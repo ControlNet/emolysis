@@ -17,8 +17,8 @@ preferred-citation:
     given-names: "Munawar"
   - family-names: "Gedeon"
     given-names: "Tom"
-  collection-title: "International Conference on Affective Computing and Intelligent Interaction Workshops and Demos (ACIIW)"
+  collection-title: "12th International Conference on Affective Computing and Intelligent Interaction Workshops and Demos (ACIIW)"
   title: "Emolysis: A Multimodal Open-Source Group Emotion Analysis and Visualization Toolkit"
   year: 2024
-  start: 1
-  end: 3
+  start: 116
+  end: 118
