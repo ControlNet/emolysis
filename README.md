@@ -19,7 +19,10 @@
         <img src="https://img.shields.io/github/license/ControlNet/emolysis?style=flat-square">
     </a>
     <a href="https://arxiv.org/abs/2305.05255">
-        <img src="https://img.shields.io/badge/arXiv-2305.05255-b31b1b.svg?style=flat-square">
+        <img src="https://img.shields.io/badge/arXiv-2305.05255-b31b1b?style=flat-square">
+    </a>
+    <a href="https://hub.docker.com/r/controlnet/emolysis">
+        <img src="https://img.shields.io/docker/image-size/controlnet/emolysis?style=flat-square&logo=docker&label=Docker">
     </a>
     <a href="https://huggingface.co/ControlNet/emolysis">
         <img src="https://img.shields.io/badge/huggingface-model-FFD21E?style=flat-square&logo=huggingface">
